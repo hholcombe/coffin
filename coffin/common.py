@@ -198,7 +198,7 @@ def get_env():
     # don't think it matters.
     if settings.USE_I18N:
         from django.utils import translation
-        result.install_gettext_translations(translation)
+        result.install_gettext_translations(translation, newstyle=True)
 
     return result
 
