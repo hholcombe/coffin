@@ -24,12 +24,20 @@ class CoffinEnvironment(Environment):
             loader=loader,
             **kwargs
         )
+
+        # Get the globals that extensions may have added
+        ext_globals = {}
+        for key in self.globals.iterkeys():
+            if not all_ext['globals'].has_key(key):
+                ext_globals[key] = self.globals[key]
+
         # Note: all_ext already includes Jinja2's own builtins (with
         # the proper priority), so we want to assign to these attributes.
         self.filters = all_ext['filters'].copy()
         self.filters.update(filters)
         self.globals = all_ext['globals'].copy()
         self.globals.update(globals)
+        self.globals.update(ext_globals)
         self.tests = all_ext['tests'].copy()
         self.tests.update(tests)
         for key, value in all_ext['attrs'].items():
